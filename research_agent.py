@@ -10,7 +10,8 @@ from typing_extensions import Literal
 
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage, filter_messages
-from langchain.chat_models import init_chat_model
+
+from models import init_model
 
 from state_research import ResearcherState, ResearcherOutputState
 from utils import tavily_search, get_today_str, think_tool
@@ -23,10 +24,14 @@ tools = [tavily_search, think_tool]
 tools_by_name = {tool.name: tool for tool in tools}
 
 # Initialize models
-model = init_chat_model(model="anthropic:claude-sonnet-4-20250514")
+model = init_model()
+
 model_with_tools = model.bind_tools(tools)
-summarization_model = init_chat_model(model="openai:gpt-4.1-mini")
-compress_model = init_chat_model(model="openai:gpt-4.1", max_tokens=32000) # model="anthropic:claude-sonnet-4-20250514", max_tokens=64000
+# summarization_model = init_chat_model(model="openai:gpt-4.1-mini")
+# compress_model = init_chat_model(model="openai:gpt-4.1", max_tokens=32000) # model="anthropic:claude-sonnet-4-20250514", max_tokens=64000
+summarization_model = init_model()
+compress_model = init_model()
+
 
 # ===== AGENT NODES =====
 
@@ -71,6 +76,7 @@ def tool_node(state: ResearcherState):
     ]
 
     return {"researcher_messages": tool_outputs}
+
 
 def compress_research(state: ResearcherState) -> dict:
     """Compress research findings into a concise summary.

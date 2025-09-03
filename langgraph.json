@@ -1,7 +1,8 @@
 {
     "dockerfile_lines": [],
     "graphs": {
-      "scope_research": "research_agent_scope:scope_research"
+        "scope_research": "research_agent_scope:scope_research",
+        "research_agent": "research_agent:researcher_agent"
     },
     "python_version": "3.12",
     "env": ".env",
