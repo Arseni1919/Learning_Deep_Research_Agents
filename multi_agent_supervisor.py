@@ -14,7 +14,9 @@ import asyncio
 
 from typing_extensions import Literal
 
-from langchain.chat_models import init_chat_model
+# from langchain.chat_models import init_chat_model
+from models import init_model
+
 from langchain_core.messages import (
     HumanMessage, 
     BaseMessage, 
@@ -32,7 +34,11 @@ from state_multi_agent_supervisor import (
     ConductResearch, 
     ResearchComplete
 )
+
+# ===== UTILITY FUNCTIONS =====
+
 from utils import get_today_str, think_tool
+
 
 def get_notes_from_tool_calls(messages: list[BaseMessage]) -> list[str]:
     """Extract research notes from ToolMessage objects in supervisor message history.
@@ -68,7 +74,10 @@ except ImportError:
 # ===== CONFIGURATION =====
 
 supervisor_tools = [ConductResearch, ResearchComplete, think_tool]
-supervisor_model = init_chat_model(model="anthropic:claude-sonnet-4-20250514")
+
+# supervisor_model = init_chat_model(model="anthropic:claude-sonnet-4-20250514")
+supervisor_model = init_model()
+
 supervisor_model_with_tools = supervisor_model.bind_tools(supervisor_tools)
 
 # System constants
