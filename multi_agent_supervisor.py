@@ -87,7 +87,7 @@ max_researcher_iterations = 6 # Calls to think_tool + ConductResearch
 
 # Maximum number of concurrent research agents the supervisor can launch
 # This is passed to the lead_researcher_prompt to limit parallel research tasks
-max_concurrent_researchers = 3
+max_concurrent_researchers = 2
 
 # ===== SUPERVISOR NODES =====
 
@@ -254,4 +254,7 @@ supervisor_builder = StateGraph(SupervisorState)
 supervisor_builder.add_node("supervisor", supervisor)
 supervisor_builder.add_node("supervisor_tools", supervisor_tools)
 supervisor_builder.add_edge(START, "supervisor")
+# supervisor_builder.add_edge("supervisor", "supervisor_tools")
+# supervisor_builder.add_edge("supervisor_tools", "supervisor")
+# supervisor_builder.add_edge("supervisor_tools", END)
 supervisor_agent = supervisor_builder.compile()
